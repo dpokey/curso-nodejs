@@ -193,3 +193,194 @@ console.log(filteredArray); // ['Pierre', 1, 2, 3, 4]
 */
 
 
+
+/*  ---- Manejo de Argumentos para la ejecucion de app.js ----  */
+/* 
+    Por linea de omenados se pueden pasar algumentos a la ejecucion de la app.js
+    por ejemplo en nuestro caso
+    1.en consola: node app.js <add|remove|list> 
+
+    Los argumentos se almacenan en el objeto process{argv[]} de app.js
+    -su primer argumento es el ejecutable de node
+    -su segundo argumento el archivo app.js
+    -su demas argumentos son los que ingresan
+
+    [ 'C:\\Program Files\\nodejs\\node.exe',
+      'D:\\GitHub\\nodejs\\1.NODEJS_FUNDAMENTALS\\notes-node\\app.js',
+      'add' ]
+
+    El problema con este metodo es cuando queremos agregar argumentos pares tipo 
+    node app.js add --title="titulo de la nota"
+    en este caso --title="titulo de la nota" todo se agregaria como un 4to argumento, donde tendriamos que trabajar la cadena y separar los valores de title y "titulo de la cadena"
+
+    se podria optar por colocar node app.js add --title "titulo de la nota" y el "titulo de la nota" ya iria como 5to argumento, pero tambien es un trabajo adicional.
+*/
+/*
+    archivo app.js
+    **************
+*/
+//  pintamos los argumentos del objeto process de app.js
+console.log(process.argv);
+
+//  tomamos el argumento en la tercera pocicion
+var command = process.argv[2];
+console.log('Command :', command);
+//  evaluamos el argumento
+switch (command) {
+    case 'add':
+        console.log('Adding new note');
+        break;
+    case 'list':
+        console.log('Listing all notes');
+        break;
+    case 'read':
+        console.log('Reading note')
+    case 'remove':
+        console.log('Removing note');
+        break;
+    default:
+        console.log('Command not recognized');
+}
+
+/*  ---- Manejo de Argumentos mediante yargs de npm ----  */
+/* 
+    Yargs es un modulo que permite trabajar de manera mas eficiente los argumentos
+    Los argumentos se almacenan en el objeto yargs{argv{}} de app.js
+    
+    1.en consola: node app.js add encrypted --title="secrets"
+    { _: [ 'add', 'encrypted' ], title: 'secrets', '$0': 'app.js' }
+
+    en _ se almacenan los argumentos de complemento como add, encrypted
+    por cada argumento de pares yargs agrega una nueva propiedad al objeto, lo que facilida su trabajo title: 'secrets'
+
+*/
+/*
+    consola
+    *******
+    node app.js remove --title="secrets" --body="xxxx"
+*/
+/*
+    archivo app.js
+    **************
+*/
+//  process tambien tiene array argv en el objeto process{argv[]}
+//  yargs tambien tiene obteto argv en el objeto yargs{argv{}}
+const argvYargs = yargs.argv
+const argvProcess = process.argv
+//  pintamos en consola los objetos para ver la diferecnia entre ambos
+console.log('Yargs :', argvYargs)
+console.log('Process :', argvProcess)
+//  tomamos el argumento en la primera pocicion
+var command = argvYargs._[0]
+console.log('Command :', command)
+//  evaluamos el argumento
+switch (command) {
+    case 'add':
+        console.log('Adding new note')
+        //  llamamos al metodo addNote exportado por notes y usamos los argumentos del objeto yargs para trajar los argumentos de una mejor forma
+        notes.addNote(argvYargs.title, argvYargs.body)
+        break;
+    case 'list':
+        console.log('Listing all notes')
+        notes.getAll()
+        break;
+    case 'read':
+        console.log('Reading note')
+        notes.getNote(argvYargs.title)
+        break;
+    case 'remove':
+        console.log('Removing note')
+        notes.removeNote(argvYargs.title)
+        break;
+    default:
+        console.log('Command not recognized')
+}
+/*
+    archivo notes.js
+    **************
+*/
+console.log('Iniciando notes.js..');
+
+//  declaramos las funciones  
+var addNote = (title, body) => {
+    console.log('addNote', title, body);
+};
+
+var getAll = () => {
+    console.log('Getting all notes');
+};
+
+var getNote = (title) => {
+    console.log('Reading note', title);
+};
+
+var removeNote = (title) => {
+    console.log('Removing note', title);
+}
+
+// y las exportamos. en ES6 cuando nombrePropiedad = nombreValor se coloca directamoente solo nombrePropiedad
+module.exports = {
+    addNote,
+    getAll,
+    getNote,
+    removeNote
+}
+
+/*  ---- JSON en Javascript ----  */
+/*
+    JSON es una notacion basada en JS que permite modificar representar un objeto como una cadena de texto, y esta pueda ser enviada entre servidores, almacenada y modificada
+
+    JSON string es muy similar a un objeto de JS pero,
+    nonmbre de sus atributos envuentos en comillas dobles
+    valores de sus atributos envueltos en comillas dobles
+
+    JSON.stringify(obj) permite convertir un objeto en un JSON string
+    JSON.parse(stringPerson) permite convertir un JSON string en un objeto
+*/
+/*
+    archivo playground/json.js
+    **************************
+*/
+
+/*  ---- Convertimos un objeto en un string JSON ----  */
+
+//  declaramos un objeto
+var obj = {
+    name: 'Pierre',
+}
+//  convertimos ese objeto en un JSON string y lo asignamos a una variable objString
+var objString = JSON.stringify(obj)
+//  validamos el tipo de la variable y la pintamos en la consola
+console.log(typeof obj, obj) // object { name: 'Pierre' }
+console.log(typeof objString, objString) // string {"name":"Pierre"}
+
+/*  ---- Convertimos un string JSON en un objeto ----  */
+
+//  declaramos un JSON string
+var personString = '{"name": "Pierre", "age": 25}'
+//  convertimos ese JSON string en un objeto y lo asignamos a una variable person
+var person = JSON.parse(personString)
+//  validamos el tipo de la variable y la pintamos en la consola
+console.log(typeof personString, personString) // object { name: 'Pierre' }
+console.log(typeof person, person) // string {"name":"Pierre"}
+
+console.log('------------------------------------------')
+
+const fs = require('fs')
+//  definimos un objeto que va a representar la nota original
+var originalNote = {
+    title: 'Some title',
+    body: 'Some body'
+}
+//  Convertimos el objeto (originalNote) en un JSON string (originalNoteString)
+var originalNoteString = JSON.stringify(originalNote)
+//  escribimos en un archivo notes.json ese JSON string (originalNoteString)
+fs.writeFileSync('notes.json', originalNoteString)
+//  leemos de ese archivo notes.json ese JSON string (originalNoteString)
+noteString = fs.readFileSync('notes.json')
+//  Convertimos ese JSON string (noteString) en un objeto (note)
+var note = JSON.parse(noteString)
+
+//  pintamos esa variable nota en consola
+console.log(typeof note, note)
+
