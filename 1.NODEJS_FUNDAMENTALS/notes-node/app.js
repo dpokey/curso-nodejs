@@ -8,6 +8,7 @@ console.log('Iniciando app.js..');
 const fs = require('fs');
 const os = require('os');
 const _ = require('lodash');
+const yargs = require('yargs');
 
 const notes = require('./notes');
 
@@ -39,3 +40,63 @@ console.log(_.isString('Pierre'));
 //  llamamos a la funcion uniq de lodash que elimina duplicados de una matriz 
 var filteredArray = _.uniq(['Pierre', 1, 'Pierre', 1, 2, 3, 4]);
 console.log(filteredArray);
+
+
+console.log('\n--------------------------------------------\n');
+//  pintamos los argumentos del objeto process de app.js
+console.log(process.argv);
+
+//  tomamos el argumento en la tercera pocicion
+var command = process.argv[2];
+//  evaluamos el argumento
+console.log('Command :', command);
+
+switch (command) {
+    case 'add':
+        console.log('Adding new note');
+        break;
+    case 'list':
+        console.log('Listing all notes');
+        break;
+    case 'read':
+        console.log('Reading note')
+    case 'remove':
+        console.log('Removing note');
+        break;
+    default:
+        console.log('Command not recognized');
+}
+
+console.log('\n--------------------------------------------\n');
+//  process tambien tiene array argv en el objeto process{argv[]}
+//  yargs tambien tiene obteto argv en el objeto yargs{argv{}}
+const argvYargs = yargs.argv
+const argvProcess = process.argv
+//  pintamos en consola los objetos para ver la diferecnia entre ambos
+console.log('Yargs :', argvYargs)
+console.log('Process :', argvProcess)
+//  tomamos el argumento en la primera pocicion
+var command = argvYargs._[0]
+console.log('Command :', command)
+//  evaluamos el argumento
+switch (command) {
+    case 'add':
+        console.log('Adding new note')
+        //  llamamos al metodo addNote exportado por notes y usamos los argumentos del objeto yargs para trajar los argumentos de una mejor forma
+        notes.addNote(argvYargs.title, argvYargs.body)
+        break;
+    case 'list':
+        console.log('Listing all notes')
+        notes.getAll()
+        break;
+    case 'read':
+        console.log('Reading note')
+        notes.getNote(argvYargs.title)
+        break;
+    case 'remove':
+        console.log('Removing note')
+        notes.removeNote(argvYargs.title)
+        break;
+    default:
+        console.log('Command not recognized')
+}
