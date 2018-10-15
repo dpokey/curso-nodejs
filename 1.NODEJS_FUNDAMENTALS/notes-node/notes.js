@@ -1,8 +1,54 @@
 console.log('Iniciando notes.js..');
 
-//  declaramos las funciones  
+const fs = require('fs')
+
+//  declaramos las funciones
+
+var fetchNotes = () => {
+    //  generamos una excepcion en caso no exista el archivo previamente o tiene informacion corrupta que no se pueda leer
+    //  si hay un error en el codigo del bloque try, el catch capturara el error y no lo mostrara y seguira con la ejecucion mormal
+    try {
+        //  leemos la informacion del archivo json
+        var notesString = fs.readFileSync('notes-data.json')
+        //  definimos un nuevo vaalor a la matriz con la informacion que leemos del archivo
+        return JSON.parse(notesString)
+    } catch (e) {
+        return []
+    }
+}
+
+var saveNotes = (notes) => {
+    //  escribimos la matriz en un archivo json como un JSON string
+    fs.writeFileSync('notes-data.json',JSON.stringify(notes))
+}
+
 var addNote = (title, body) => {
     console.log('addNote', title, body);
+    //  cargamos la matriz que almacenara todas la notas
+    var notes = fetchNotes()
+    //  creamos el objeto que almacenara la nota que viene como argumento
+    var note = {
+        title,
+        body
+    }
+
+    //  validamos si la nueva nota se duplica con las existentes (valida el title)
+    //  almacenamos los duplicados en una nueva matriz
+    //  filter llama a la funcion flecha por cada elemento de la matriz que recorre, es este caso notes
+    //  si el valor de title de uno de los elementos de la matriz notes es igual al valor title que viene como argumento, filter se vuelve verdadero y ese valor duplicado se almacena en la matriz duplicateNotes 
+    var duplicateNotes = notes.filter((note) => note.title === title)
+
+    //  valimos la longitud de la matriz duplicateNotes
+    if (duplicateNotes.length === 0) {
+        //  agregamos la nota a la matriz
+        notes.push(note)
+        //  guardamos la matriz notes
+        saveNotes(notes)
+        //  devolvemos la nota, como este return solo va a suceder si enntramos al if, cuando no entremos al if
+        //  ES6 devuelve undifined implicitamente cuando no hay un return explicito
+        return note
+    } 
+    
 };
 
 var getAll = () => {
@@ -11,18 +57,41 @@ var getAll = () => {
 
 var getNote = (title) => {
     console.log('Reading note', title);
+    //  cargamos la matriz que almacenara todas la notas
+    var notes = fetchNotes()
+    //  filtramos las notas que si son iguales a la que viene por argumento y la asignamos a una nueva matriz 
+    var filteredNotes = notes.filter((note) => note.title === title)
+    //  devolvemos la primera posicion de la nueva matriz, si no hay devulve undifined
+    return filteredNotes[0]
+
 };
 
 var removeNote = (title) => {
     console.log('Removing note', title);
+    //  cargamos la matriz que almacenara todas la notas
+    var notes = fetchNotes()
+    //  filtramos las notas que no son iguales a la que viene por argumento y la asignamos a una nueva matriz
+    var filteredNotes = notes.filter((note) => note.title !== title)
+    //  guardamos la matris  
+    saveNotes(filteredNotes)
+    //  validamos el tamaño de la matris original con la matris filtrada para comprobar si hubo eliminacion
+    return notes.length != filteredNotes.length
+
 }
+
+var logNote = (note) => {
+    console.log('==')
+    console.log(`Title: ${note.title}`)
+    console.log(`Body: ${note.body}`)
+} 
 
 // y las exportamos. en ES6 cuando nombrePropiedad = nombreValor se coloca directamoente solo nombrePropiedad
 module.exports = {
     addNote,
     getAll,
     getNote,
-    removeNote
+    removeNote,
+    logNote
 };
 
 /*  -------------------------------------------  */
