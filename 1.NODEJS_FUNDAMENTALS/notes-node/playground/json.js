@@ -11,7 +11,7 @@ var objString = JSON.stringify(obj)
 console.log(typeof obj, obj) // object { name: 'Pierre' }
 console.log(typeof objString, objString) // string {"name":"Pierre"}
 
-/*  ---- Convertimos un string JSON en un objeto ----  */
+/*  ---- Convertimos un JSON string en un objeto ----  */
 
 //  declaramos un JSON string
 var personString = '{"name": "Pierre", "age": 25}'
