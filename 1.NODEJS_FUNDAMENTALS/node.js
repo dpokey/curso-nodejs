@@ -384,3 +384,21 @@ var note = JSON.parse(noteString)
 //  pintamos esa variable nota en consola
 console.log(typeof note, note)
 
+/*  ---- Manejo de Argumentos mediante yargs de npm ----  */
+/*  ----              JSON en Javascript            ----  */
+/*
+    archivo notes.js
+    **************
+*/
+
+
+
+
+
+
+
+
+
+
+
+
