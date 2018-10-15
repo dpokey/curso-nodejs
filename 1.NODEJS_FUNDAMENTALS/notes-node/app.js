@@ -83,7 +83,13 @@ switch (command) {
     case 'add':
         console.log('Adding new note')
         //  llamamos al metodo addNote exportado por notes y usamos los argumentos del objeto yargs para trajar los argumentos de una mejor forma
-        notes.addNote(argvYargs.title, argvYargs.body)
+        var note = notes.addNote(argvYargs.title, argvYargs.body)
+        if (note) {
+            console.log('Note Created')
+            notes.logNote(note)
+        } else {
+            console.log('Note title taken')
+        }
         break;
     case 'list':
         console.log('Listing all notes')
@@ -91,11 +97,19 @@ switch (command) {
         break;
     case 'read':
         console.log('Reading note')
-        notes.getNote(argvYargs.title)
+        var note = notes.getNote(argvYargs.title)
+        if (note) {
+            console.log('Note found')
+            notes.logNote(note)
+        } else {
+            console.log('Note not found')
+        }
         break;
     case 'remove':
         console.log('Removing note')
-        notes.removeNote(argvYargs.title)
+        var noteRemoved = notes.removeNote(argvYargs.title)
+        var message = noteRemoved ? 'Note was removed' : 'Note not found'
+        console.log(message)
         break;
     default:
         console.log('Command not recognized')
