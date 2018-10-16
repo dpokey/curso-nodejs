@@ -387,18 +387,205 @@ console.log(typeof note, note)
 /*  ---- Manejo de Argumentos mediante yargs de npm ----  */
 /*  ----              JSON en Javascript            ----  */
 /*
+    archivo app.js
+    **************
+*/
+//  process tambien tiene array argv en el objeto process{argv[]}
+//  yargs tambien tiene obteto argv en el objeto yargs{argv{}}
+const argvYargs = yargs.argv
+const argvProcess = process.argv
+//  pintamos en consola los objetos para ver la diferecnia entre ambos
+console.log('Yargs :', argvYargs)
+console.log('Process :', argvProcess)
+//  tomamos el argumento en la primera pocicion
+var command = argvYargs._[0]
+console.log('Command :', command)
+//  evaluamos el argumento
+switch (command) {
+    case 'add':
+        console.log('Adding new note')
+        //  llamamos al metodo addNote exportado por notes y usamos los argumentos del objeto yargs para trajar los argumentos de una mejor forma
+        var note = notes.addNote(argvYargs.title, argvYargs.body)
+        if (note) {
+            console.log('Note Created')
+            notes.logNote(note)
+        } else {
+            console.log('Note title taken')
+        }
+        break;
+    case 'list':
+        console.log('Listing all notes')
+        notes.getAll()
+        break;
+    case 'read':
+        console.log('Reading note')
+        var note = notes.getNote(argvYargs.title)
+        if (note) {
+            console.log('Note found')
+            notes.logNote(note)
+        } else {
+            console.log('Note not found')
+        }
+        break;
+    case 'remove':
+        console.log('Removing note')
+        var noteRemoved = notes.removeNote(argvYargs.title)
+        var message = noteRemoved ? 'Note was removed' : 'Note not found'
+        console.log(message)
+        break;
+    default:
+        console.log('Command not recognized')
+}
+/*
     archivo notes.js
     **************
 */
+console.log('Iniciando notes.js..');
 
+const fs = require('fs')
 
+//  declaramos las funciones
 
+var fetchNotes = () => {
+    //  generamos una excepcion en caso no exista el archivo previamente o tiene informacion corrupta que no se pueda leer
+    //  si hay un error en el codigo del bloque try, el catch capturara el error y no lo mostrara y seguira con la ejecucion mormal
+    try {
+        //  leemos la informacion del archivo json
+        var notesString = fs.readFileSync('notes-data.json')
+        //  definimos un nuevo vaalor a la matriz con la informacion que leemos del archivo
+        return JSON.parse(notesString)
+    } catch (e) {
+        return []
+    }
+}
 
+var saveNotes = (notes) => {
+    //  escribimos la matriz en un archivo json como un JSON string
+    fs.writeFileSync('notes-data.json',JSON.stringify(notes))
+}
 
+var addNote = (title, body) => {
+    console.log('addNote', title, body);
+    //  cargamos la matriz que almacenara todas la notas
+    var notes = fetchNotes()
+    //  creamos el objeto que almacenara la nota que viene como argumento
+    var note = {
+        title,
+        body
+    }
 
+    //  validamos si la nueva nota se duplica con las existentes (valida el title)
+    //  almacenamos los duplicados en una nueva matriz
+    //  filter llama a la funcion flecha por cada elemento de la matriz que recorre, es este caso notes
+    //  si el valor de title de uno de los elementos de la matriz notes es igual al valor title que viene como argumento, filter se vuelve verdadero y ese valor duplicado se almacena en la matriz duplicateNotes 
+    var duplicateNotes = notes.filter((note) => note.title === title)
 
+    //  valimos la longitud de la matriz duplicateNotes
+    if (duplicateNotes.length === 0) {
+        //  agregamos la nota a la matriz
+        notes.push(note)
+        //  guardamos la matriz notes
+        saveNotes(notes)
+        //  devolvemos la nota, como este return solo va a suceder si enntramos al if, cuando no entremos al if
+        //  ES6 devuelve undifined implicitamente cuando no hay un return explicito
+        return note
+    } 
+    
+};
 
+var getAll = () => {
+    console.log('Getting all notes');
+};
 
+var getNote = (title) => {
+    console.log('Reading note', title);
+    //  cargamos la matriz que almacenara todas la notas
+    var notes = fetchNotes()
+    //  filtramos las notas que si son iguales a la que viene por argumento y la asignamos a una nueva matriz 
+    var filteredNotes = notes.filter((note) => note.title === title)
+    //  devolvemos la primera posicion de la nueva matriz, si no hay devulve undifined
+    return filteredNotes[0]
+
+};
+
+var removeNote = (title) => {
+    console.log('Removing note', title);
+    //  cargamos la matriz que almacenara todas la notas
+    var notes = fetchNotes()
+    //  filtramos las notas que no son iguales a la que viene por argumento y la asignamos a una nueva matriz
+    var filteredNotes = notes.filter((note) => note.title !== title)
+    //  guardamos la matris  
+    saveNotes(filteredNotes)
+    //  validamos el tamaño de la matris original con la matris filtrada para comprobar si hubo eliminacion
+    return notes.length != filteredNotes.length
+
+}
+
+var logNote = (note) => {
+    console.log('==')
+    console.log(`Title: ${note.title}`)
+    console.log(`Body: ${note.body}`)
+} 
+
+// y las exportamos. en ES6 cuando nombrePropiedad = nombreValor se coloca directamoente solo nombrePropiedad
+module.exports = {
+    addNote,
+    getAll,
+    getNote,
+    removeNote,
+    logNote
+};
+
+/*  -------------------------------------------  */
+
+module.exports.addNotes = () => {
+    console.log('addNotes');
+    return 'New Note';
+};
+
+module.exports.add = (num1, num2) => {
+    return num1 + num2;
+};
+
+/*  ---- Debugging ----  */
+/* 
+    Para iniciar el modo depuracion, por consola:
+    >node inspect archivo.js
+    3 primeras linesas deben ser ingnoradas, indican que el depurador inicio con exito
+
+    Al estar en modo debug, podemos por consola:
+    lista las 10 primera slineas del codigo y muestra la funcion que se crea al iniciar todo archivo.js
+    debug>list(10)
+    saltamos a la siguiente instruccion de depuracion
+    debug>n
+    continuamos hasta el final
+    debug>c
+
+    para ver los valores de las variables en un momento dado en un breakpoint
+    debug>repl
+    en este nuevo modo de depuracion podemos consultar los valores de las variables
+    >person
+    
+    para evitar unsa n por consola, en archivo se puede declara un punto de interrupcion
+    debugger;
+
+*/
+/*  ---- Debugging con Google Chrome ----  */
+/* 
+    para jecutar el debugger en modo servicio en consola:
+    >node --inspect-brk archivo.js
+
+    en chrome
+    chrome://inspect/
+*/
+/*  ---- Manejo de argumentos avanzados con YARGS ----  */
+/* 
+    
+*/
+/*  ---- Funciones Flechas ES6 ----  */
+/* 
+    
+*/
 
 
 
