@@ -63,14 +63,42 @@ switch (command) {
     case 'remove':
         console.log('Removing note');
         break;
+    case 'update':
+        console.log('Updating note');
+        break;
     default:
         console.log('Command not recognized');
 }
 
 console.log('\n--------------------------------------------\n');
+
+const titleOptions = {
+    describe: 'Title of note',
+    demand: true,
+    alias: 't'
+}
+const bodyOptions = {
+    describe: 'Body of note',
+    demand: true,
+    alias: 'b'
+}
 //  process tambien tiene array argv en el objeto process{argv[]}
 //  yargs tambien tiene obteto argv en el objeto yargs{argv{}}
-const argvYargs = yargs.argv
+const argvYargs = yargs
+    .command('add', 'Add a new note', {
+        title: titleOptions,
+        body: bodyOptions
+    })
+    .command('list', 'List all notes')
+    .command('read', 'Read a note', {
+        title: titleOption
+    })
+    .command('remove', 'Remove a note', {
+        title: titleOption
+    })
+    .help()
+    .argv
+
 const argvProcess = process.argv
 //  pintamos en consola los objetos para ver la diferecnia entre ambos
 console.log('Yargs :', argvYargs)
@@ -93,7 +121,9 @@ switch (command) {
         break;
     case 'list':
         console.log('Listing all notes')
-        notes.getAll()
+        var allNotes = notes.getAll()
+        console.log(`Printing ${allNotes.length} note(s):`)
+        allNotes.forEach((note) => notes.logNote(note))
         break;
     case 'read':
         console.log('Reading note')
@@ -110,6 +140,16 @@ switch (command) {
         var noteRemoved = notes.removeNote(argvYargs.title)
         var message = noteRemoved ? 'Note was removed' : 'Note not found'
         console.log(message)
+        break;
+    case 'update':
+        console.log('Updating note')
+        var noteUpdated = notes.updateNote(argvYargs.title, argvYargs.body)
+        if (noteUpdated) {
+            console.log('Note Updated')
+            notes.logNote(noteUpdated)
+        } else {
+            console.log('Note not updated')
+        }
         break;
     default:
         console.log('Command not recognized')
