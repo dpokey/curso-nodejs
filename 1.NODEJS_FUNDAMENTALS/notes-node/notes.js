@@ -53,6 +53,8 @@ var addNote = (title, body) => {
 
 var getAll = () => {
     console.log('Getting all notes');
+    //  cargamos la matriz que almacenara todas la notas
+    return fetchNotes()
 };
 
 var getNote = (title) => {
@@ -79,7 +81,18 @@ var removeNote = (title) => {
 
 }
 
+var updateNote = (title, body) => {
+    console.log('Updating note', title)
+
+    if (getNote(title)) {
+        if (removeNote(title)) {
+            return addNote(title, body)
+        }
+    }
+}
+
 var logNote = (note) => {
+    debugger;
     console.log('==')
     console.log(`Title: ${note.title}`)
     console.log(`Body: ${note.body}`)
@@ -91,6 +104,7 @@ module.exports = {
     getAll,
     getNote,
     removeNote,
+    updateNote,
     logNote
 };
 
