@@ -72,6 +72,7 @@ switch (command) {
 
 console.log('\n--------------------------------------------\n');
 
+//  declaramos las sub opciones de los comandos para que luegos puedan ser llamadas desde la definicion de los comandos 
 const titleOptions = {
     describe: 'Title of note',
     demand: true,
