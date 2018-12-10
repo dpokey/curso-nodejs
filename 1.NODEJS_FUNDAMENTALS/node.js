@@ -15,7 +15,6 @@ console.log('Hola mundo node');
 /*  
     require nos permite importar modulos propios de node 
     https://nodejs.org/api/
-
     OS          - permite obtener el nombre del usuario actualmente conectado
     FILE SYSTEM - permite crear nuevos archivos
 */
@@ -297,7 +296,7 @@ switch (command) {
 }
 /*
     archivo notes.js
-    **************
+    ****************
 */
 console.log('Iniciando notes.js..');
 
@@ -335,7 +334,7 @@ module.exports = {
     valores de sus atributos envueltos en comillas dobles
 
     JSON.stringify(obj) permite convertir un objeto en un JSON string
-    JSON.parse(stringPerson) permite convertir un JSON string en un objeto
+    JSON.parse(string) permite convertir un JSON string en un objeto
 */
 /*
     archivo playground/json.js
@@ -438,7 +437,7 @@ switch (command) {
 }
 /*
     archivo notes.js
-    **************
+    ****************
 */
 console.log('Iniciando notes.js..');
 
