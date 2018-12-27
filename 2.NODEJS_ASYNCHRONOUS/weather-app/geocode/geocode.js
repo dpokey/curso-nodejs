@@ -41,7 +41,7 @@ var geocodeAddress = (address, callback) => {
     
         body: representa el cuerpo de la informacion que se esta solicitando a la API
     
-        para ver el objeto de una forma mas atractiva, lo convertimos a un string
+        para ver el objeto de una forma mas atractiva, lo convertimos a un string JSON.stringify
         el segundo argumento se utiliza para filtrar propiedades, por lo general es inutil, por eso colocamos undifined
         el tercer argumento indica cuantos espacios se desea utilizar por sangria
     */
@@ -55,9 +55,9 @@ var geocodeAddress = (address, callback) => {
             callback('Unable to find that Address')
         } else if (body.status === 'OK') {
             callback(undefined, {
-                Address: body.results[0].formatted_address,
-                Latitude: body.results[0].geometry.location.lat,
-                Longitude: body.results[0].geometry.location.lng
+                address: body.results[0].formatted_address,
+                latitude: body.results[0].geometry.location.lat,
+                longitude: body.results[0].geometry.location.lng
             })
         }
     })
