@@ -92,10 +92,14 @@ const argvYargs = yargs
     })
     .command('list', 'List all notes')
     .command('read', 'Read a note', {
-        title: titleOption
+        title: titleOptions
+    })
+    .command('update', 'Update a note', {
+        title: titleOptions,
+        body: bodyOptions
     })
     .command('remove', 'Remove a note', {
-        title: titleOption
+        title: titleOptions
     })
     .help()
     .argv
@@ -147,9 +151,12 @@ switch (command) {
         var noteUpdated = notes.updateNote(argvYargs.title, argvYargs.body)
         if (noteUpdated) {
             console.log('Note Updated')
-            notes.logNote(noteUpdated)
+            console.log('Old note:')
+            notes.logNote(noteUpdated[0])
+            console.log('New note:')
+            notes.logNote(noteUpdated[1])
         } else {
-            console.log('Note not updated')
+            console.log('Note not found')
         }
         break;
     default:

@@ -565,8 +565,8 @@ module.exports.add = (num1, num2) => {
     en este nuevo modo de depuracion podemos consultar los valores de las variables
     >person
     
-    para evitar unsa n por consola, en archivo se puede declara un punto de interrupcion
-    debugger;
+    para evitEar unsa n por consola, en archivo se puede declara un punto de interrupcion
+    debuggerE;
 
 */
 /*  ---- Debugging con Google Chrome ----  */

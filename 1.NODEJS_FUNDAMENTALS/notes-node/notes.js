@@ -83,12 +83,29 @@ var removeNote = (title) => {
 
 var updateNote = (title, body) => {
     console.log('Updating note', title)
-
-    if (getNote(title)) {
-        if (removeNote(title)) {
-            return addNote(title, body)
-        }
+    // crwamos un objeto de la nueva nota    
+    var newNote = {
+        title,
+        body
     }
+    // cargamos todas las notas
+    var notes = fetchNotes()
+    // buscamos si hay una nota con el mismo titulo y cargamos sus valores en oldNote
+    var oldNote = notes.find((note) => note.title === title)
+    // si existe
+    if (oldNote) {
+        // buscamos su indice en notas
+        var indexOldNote = notes.findIndex((note) => note.title === title)
+        // en esa misa posicion sobreescrbimos newNote
+        notes[indexOldNote] = newNote
+        // guardamos notas en el archivo
+        saveNotes(notes)
+        // creamos un array para almacenar oldNote y newNote
+        var updateNotes = []
+        updateNotes.push(oldNote)
+        updateNotes.push(newNote)
+        return updateNotes
+    } 
 }
 
 var logNote = (note) => {
