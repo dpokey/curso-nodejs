@@ -19,13 +19,6 @@
 
 //  Ejemplo 01
 
-
-
-
-
-/* 
-
-
 var somePromise = new Promise((resolve, reject) => {
     //  para simular un retraso
     setTimeout(() => {
@@ -43,7 +36,6 @@ somePromise.then((message) => {
     console.log('Error: ', errorMessage)
 })
 
-*/
 
 //  Ejemplo 02
 
@@ -64,5 +56,67 @@ var asyncAdd = (a, b) => {
 asyncAdd(5, 2).then((res) => {
     console.log('Result: ', res)
 }, (errorMessage) => {
+    console.log(errorMessage)
+})
+
+//  Ejemplo 03
+
+//  Funcion asyncrona que toma 2 numeros y devuelve una promesa
+var asyncAdd = (a, b) => {
+    return new Promise ((resolve, reject) => {
+        //  para simular un retraso
+        setTimeout(() => {
+            if (typeof a === 'number' && typeof b === 'number') {
+                resolve(a + b)
+            } else {
+                reject('Arguments must be numbers')
+            }
+        }, 1500)
+    })
+}
+
+//  Este ejemplo funciona de por si, 
+//  pero si el 33 es cadena se imprime 
+//  la primera promesa que sale 12
+//  la segunda promea que sale el error
+
+//  pero si el 7 es cadena se imprime
+//  la primera promesa que sale el error
+//  la segunda promesa que sale Should be 45: undifined
+
+asyncAdd(5, 7)
+.then((res) => { 
+    console.log('Result: ', res)
+    return asyncAdd(res, 33) 
+}, 
+    (errorMessage) => console.log(errorMessage))
+.then((res) => console.log('Should be 45: ', res),
+    (errorMessage) => console.log(errorMessage))
+
+//  Ejemplo 04
+
+//  Funcion asyncrona que toma 2 numeros y devuelve una promesa
+var asyncAdd = (a, b) => {
+    return new Promise ((resolve, reject) => {
+        //  para simular un retraso
+        setTimeout(() => {
+            if (typeof a === 'number' && typeof b === 'number') {
+                resolve(a + b)
+            } else {
+                reject('Arguments must be numbers')
+            }
+        }, 1500)
+    })
+}
+
+//  para solucionar el caso anterior, borramos las capturas de error y solo catcheamos una sola captura de error
+//  para cualquier problema en las promesas, solo se imprimira esa
+
+asyncAdd(5, 7).then((res) => {
+    console.log('Result: ', res)
+    return asyncAdd(res, 33)
+}).then((res) => {
+    console.log('Should be 45: ', res)
+}).catch((errorMessage) => {
     console.log(errorMessage)
 })
