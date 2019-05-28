@@ -29,3 +29,11 @@ module.exports = {
     getWeather
 }
 
+/* 
+// Prueba de llamada de la funcion
+getWeather(39.9396284, -75.18663959999999).then((weather) => {
+    console.log(JSON.stringify(weather, undefined, 2))
+}, (errorMessage) => {
+    console.log(errorMessage)
+})
+*/

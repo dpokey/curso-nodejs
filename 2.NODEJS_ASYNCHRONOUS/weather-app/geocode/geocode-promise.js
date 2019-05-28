@@ -28,8 +28,15 @@ var geocodeAddress = (address) => {
     })
 }
 
+module.exports = {
+    geocodeAddress
+}
+
+/* 
+// Prueba de llamada de la funcion
 geocodeAddress('19146').then((location) => {
     console.log(JSON.stringify(location, undefined, 2))
 },(errorMessage) => {
     console.log(errorMessage)
 })
+*/
