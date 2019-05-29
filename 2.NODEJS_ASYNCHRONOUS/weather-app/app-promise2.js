@@ -18,7 +18,13 @@ const argv = yargs
 
 //  console.log(argv)
 
-var encodedAddress = encodeURIComponent(argv.address)
+//  Definimos una direccion por default
+if (argv.address) {
+    var encodedAddress = encodeURIComponent(argv.address)
+} else {
+    var encodedAddress = encodeURIComponent('Avenida Canada 1290 la victoria lima peru')
+}
+
 var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${API_KEY}`
 
 axios.get(geocodeUrl).then((response) => {

@@ -19,8 +19,6 @@ const argv = yargs
 // console.log(argv)
 
 //  Llamamos a la funcion geocodeAddress que recibe como argumentos la direccion ingresada por el usuario
-//  y la funcion que se va a ejecutar cuando los datos sean obtenidos
-//  la funcion callback recibe 2 parametros, el errorMessage y los resultados (direccion latitud y longitud) 
 
 geocode.geocodeAddress(argv.address)
     .then(geocodeResults => {
