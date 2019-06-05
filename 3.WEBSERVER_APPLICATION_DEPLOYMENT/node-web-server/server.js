@@ -5,7 +5,7 @@ y tambien donde vamos a empezar la union a un puerto en nuestra maquina servidor
 
 const express = require('express')
 const hbs = require('hbs')
-
+const fs = require('fs')
 // Creamos una nueva aplicacion
 const app = express()
 
@@ -43,11 +43,45 @@ valor: hbs
 */
 app.set('view engine', 'hbs')
 
+/* 
+Metodo app.use esto se ejecuta al inicio del todo
+Middleware se ejecuta en el orden en que se coloca en el codigo
+*/
+app.use((req, res, next) => {
+    res.render('maintenance.hbs', {
+        pageTitle: 'We will be right back',
+        body: 'The site is currently being update'
+    })
 
+})
 
-/* Metodo app.use para establecer la ruta publica donde se encuentran los archivos estativos
+/* 
+La funcion dentro del use, va a ser llamado con el objeto request, el objeto respose, y una variable next
+next() permite pasar al siguiente middleware sin quedarse esperando 
+si no se llama a next() se quedara esperando. 
+se mueve en dejar que el proceso del servidor continue con la atencion del request
+Nos ayuda a realizar un seguimiento de como esta funcionando nuetro servidor
+*/
+app.use((req, res, next) => {
+    // Creamos una variable now que almacena la hora, instanciamos al objeto Date y ejecutamos su metodo toString para que lo muestre en un formatolegible y la mostramos por consola. adicionalmente mostramos el metodo de la invocacion y la url solicitada
+    let now = new Date().toString()
+    let log = `${now}: ${req.method} ${req.url}`
+    console.log(log)
+    // Metodo appendFile 1er argumento: nombre archivo 2do argumento: data 3ro argumento: funcion que evalua error
+    fs.appendFile('server.log', log + '\n', (error) => {
+        if (error) {
+            console.log('Unable to append to server.log')
+        }
+    })
+    next()
+})
+
+/*
+Metodo app.use para establecer la ruta publica donde se encuentran los archivos estativos
 Con esto express sirve todos los archivos estaticos dinamicamente y ya no tenemos que colocar un metodo app.get por cada ruta
 __dirname es una variable que almacena la ruta del directorio del proyecto en express y le concatenamos la ruta del directorio publico
+Aqui usamos middlesware cuando le enseñamos a expresscomo leer desde un directorio de estaricos
+app.use es una forma en que se registre en el middleware y recibe una funcion como parametro
 */
 app.use(express.static(__dirname + '/public'))
 
@@ -58,7 +92,7 @@ Hay do parametros en el metodo GET
 2do argumento: la funcion que le dice a expres que va a enviar a la persona que hizo la solicitud 
 Esta funcion debe tener 2 argumentos
  - 1er argumento: es la solictud (request)
- Contiene informacion como cabeceras que se utilizaron y cualquier informacion cuerpo que se utilizo en la solicitud
+ Contiene informacion que viene desde el cliente como cabeceras que se utilizaron y cualquier informacion cuerpo que se utilizo en la solicitud 
  - 2do argumento: es la respuesta (response)
  Contiene un monton de metodos, para que pueda responder a la solictud de la forma que quiera, puede personalizar los datos que envia devuelto
 */
