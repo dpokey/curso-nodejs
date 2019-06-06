@@ -53,14 +53,15 @@ app.set('view engine', 'hbs')
 /* 
 Metodo app.use esto se ejecuta al inicio del todo
 Middleware se ejecuta en el orden en que se coloca en el codigo
+Este codigo muestra el portal en mantenimiento
 */
-app.use((req, res, next) => {
-    res.render('maintenance.hbs', {
-        pageTitle: 'We will be right back',
-        body: 'The site is currently being update'
-    })
+// app.use((req, res, next) => {
+//     res.render('maintenance.hbs', {
+//         pageTitle: 'We will be right back',
+//         body: 'The site is currently being update'
+//     })
 
-})
+// })
 
 /* 
 La funcion dentro del use, va a ser llamado con el objeto request, el objeto respose, y una variable next
@@ -139,7 +140,7 @@ metodo res.render va a dejar que cualquiera de las plantillas que se han configu
         pageTitle: 'About Page',
         // Devolvemos una instancia del objeto fecha
         // currentYear: new Date().getFullYear()
-        // Lo comentamos porque ahora consumimos este valos desde el helper de arriba
+        // Lo comentamos porque ahora consumimos este valores desde el helper de arriba
     })
 
 })
@@ -149,6 +150,21 @@ app.get('/bad', (req, res) => {
         erroMessage: 'Unable to handle request'
     })
 })
+
+app.get('/projects', (req, res) => {
+    res.render('projects.hbs', {
+        pageTitle: 'Projects Page',
+        bodyMessage: 'This is my project'
+    })
+})
+
+
+
+
+
+
+
+
 
 /*
 Hacemos que la aplicacion escuche en un puerto especifico

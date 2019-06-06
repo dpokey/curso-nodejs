@@ -95,4 +95,33 @@ Esto es para que heroku no sabe el nombre de nuestro archivo, pero ejecuta el sc
 Despues de esta configuracion, puedo iniciar la aplicacion ejecutando
 
 npm start
-/*
+
+git add .
+Subimos nuestros cambios con Stagin Area
+
+git commit -m 'mensaje'
+Confirmamos nuestros cambios en repositorio local
+
+git push
+Confirmamos nuestros cambios en repositorio github
+
+heroku create 
+El comando heroku create CLI crea una nueva aplicación vacía en Heroku, junto con un repositorio de Git vacío asociado. Si ejecuta este comando desde el directorio raíz de su aplicación, el repositorio de Heroku Git vacío se configurará automáticamente como un control remoto para su repositorio local.
+Va a crear una nueva aplicacion atravez de la aplicacion web de heroku
+Tambien va a añadir un nuevo mando a su repositorio git
+
+Tenemos:
+Un control remoto origen (Local) ---> que apunta a nuestro repositorio github (Remoto)
+Vamos a tener un control remoto (Local heroku) ---> que apunta a nuestro repositorio github heroku (Remoto)
+
+git push heroku
+Confirmamos nuestros cambios en repositorio github heroku
+Heroku nos mostrara unos log donde nos hara aber como nuestra aplicacion se esta desplegando
+Al final nos muestra la URL de la aplicacion desplegada (la mpodemos abrir en el navegador)
+
+herolu open
+o podemos ejecutar open para que lo abra en el navegador por defecto
+
+Ai tuvieramos un dominio comprado, tendriamos que redireccionar nuestros dns a esta url que nos da heroku
+
+*/
