@@ -8,6 +8,13 @@ const hbs = require('hbs')
 const fs = require('fs')
 // Creamos una nueva aplicacion
 const app = express()
+/* 
+Almacena el puerto dinamico que es tomado de las variables de entorno de heroku
+process.env es un objeto que almacena todas nuestras variables de entorno como pares de clave valor
+PORT indica la variable de entorno de heroku que estamos bucando o en caso no exista tome el valor por defecto 3000
+Ahora tenemos un puerto que esta configurado para trabajar con la variable de entorno que proporciona heroku y todavia ejecutar localmente con el puerto 3000
+*/
+const port = process.env.PORT || 3000
 
 /* 
 handlebarjs permite usar partials: es son una pieza de codigo que se puede agregar a sus paginas html
@@ -148,6 +155,23 @@ Hacemos que la aplicacion escuche en un puerto especifico
 1er parametro: puerto de escucha
 2do parametro: funcion que se ejecutara cuando el servidor este activo, ya que puede tomar algo de tiempo en conseguir iniciar 
 */
-app.listen(3000, () => {
-    console.log('Server is up on port 3000')
+
+// app.listen(3000, () => {
+//     console.log('Server is up on port 3000')
+// })
+
+/* 
+Como vamos a usar heroku, debemos cambiar el valor del puerto de escucha a uno dinamico, ya que a nivel local colocamos un puerto estatico (3000).
+Para colocar el puerto dinamico, usamos el valor de una variable de entorno que provee heroku en sus servidores la cual ira cambiando en los despliegues
+
+SET
+Para ver las variables de entorno locales Windows
+
+env
+Para ver las variables de entorno locales Linux
+*/
+
+
+app.listen(port, () => {
+    console.log(`Server is up on port ${port}`)
 })

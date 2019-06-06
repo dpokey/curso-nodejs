@@ -34,6 +34,65 @@ muestra informacion del estado del repositorio, de los archivos modificados y de
 git add <nombre_archivo_o_carpeta>
 para trakear un directorio o archivo
 
+git add . 
+para trakear todos los archivos en la ubicacion actual
+
 En el archivo .gitignore
 Se definen los archivos que no se desean considerar
-*/
+
+--------------------
+Claves SSH
+permiten identificar que soy yo quien realmente digo que soy para asi subir archivos 
+
+ls -al ~/.ssh
+1.-Para comprobar si en directorio con git ya se tienen unas claves ssh
+
+ssh-keygen -t rsa -b 4296 -C 'email'
+2.-Para generar las claves
+1er argumento: 
+2do argumento:
+3er argumento:
+
+eval "$(ssh-agent -s)"
+3.-Vamos a poner en marcha el agente ssh y tambien va a imprimir el identificador de proceso
+
+ssh-add ~/.ssh/id_rsa
+4.-Para decirle al agente donde se encuentran las claves generadas, esto signidica que la maquina local ahora sabe de ese par de claves y que tratara de usarlas cuando se comunica con un servicio de terceros como github
+
+En la web
+5.-Agregar la clave publica en la cuenta de github 
+
+ssh -T git@github.com
+6.-validar si ya existe conexion segura con github
+--------------
+
+Para acuñar los cambios al origin master remoto
+git push -u origin master
+
+------------------
+Heroku
+
+heroku login
+Para iniciar el proceso de login
+
+heroku keys:add 
+Vamos a agregar las llaves ssh locales creadas anteriormente 
+
+heroku keys
+Para ver todas las claves actualmente en nuestra ceunta heroku
+
+heroku keys:remove <email>
+Para remover una clave en particular
+
+ssh -v git@heroku.com
+Para probar la conexion. se espera como respuesta (Authentication succeeded(publickey))
+
+Para que nuestra aplicacion funcione, se deben realir dos cambios importantes:
+1.- Cambio del puerto de escucha estatico por uno dinamico otorgado por heroku en una variable de entorno
+2.- Especificar un script en package.json. Este escript debe indicar exactamente como inicia nuestra aplicacion
+"start": "node server.js"
+Esto es para que heroku no sabe el nombre de nuestro archivo, pero ejecuta el script start del package.json
+Despues de esta configuracion, puedo iniciar la aplicacion ejecutando
+
+npm start
+/*
