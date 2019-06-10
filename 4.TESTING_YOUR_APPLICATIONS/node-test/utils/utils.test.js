@@ -35,6 +35,18 @@ it('Should add two numbers', () => {
     expect(res).toBe(44).toBeA('number')
 })
 
+// El parametro done le indica a mocha que esta sera una prueba de una funcion asyncrona
+// Mocha en sus resultados tambien avisa si una prueba toma mucho tiempo, ya que nada deberia tomar mas de un segundo
+it('Should async add two numbers', (done) => {
+    utils.asyncAdd(4, 3, (sum) => {
+        expect(sum).toBe(7).toBeA('number')
+        // Significa que todos estamos listos para la prueba
+        done()
+    })
+})
+
+/* --------------------------------------------- */
+
 /* Usando Mocha */
 
 it('Should square a number', () => {
@@ -51,6 +63,16 @@ it('Should square a number', () => {
     expect(res).toBe(25).toBeA('number')
 })
 
+it('Should async aquare a number', (done) => {
+    utils.asyncSquare(5, (res) => {
+        expect(res).toBe(25).toBeA('number')
+        done()
+    })
+})
+
+
+
+
 /* 
     Usando Jest
 
@@ -66,9 +88,9 @@ it('Should square a number', () => {
 
     Just imprimira un mensaje explicito del error y el resultavo obtenido. a diferencia de mocha no se tiene que usar un if para validar el resultado
 */
-test('Should square a number', () => {
-    expect(utils.square(5)).toBe(25)
-});
+// test('Should square a number', () => {
+//     expect(utils.square(5)).toBe(25)
+// });
 
 /* --------------------------------------------- */
 
@@ -90,6 +112,16 @@ it('Should expect some values', () => {
         age: 30
     })
 
+})
+
+it('Should verify first and last names are set', () => {
+    const user = {location: 'Lima', age: 30}
+    const res = utils.setName(user, 'Pierre Delgado')
+    //expect(user).toEqual(res)
+    expect(res).toInclude({
+        firstName: 'Pierre',
+        lastName: 'Delgado'
+    })
 })
 
 
