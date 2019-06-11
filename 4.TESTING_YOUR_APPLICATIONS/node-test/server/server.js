@@ -13,6 +13,15 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/users', (req, res) => {
+    res.send([
+        {name: 'Pierre', age: 30},
+        {name: 'Bryan', age: 15},
+        {name: 'Mavis', age: 49},
+        {name: 'Natalie', age: 22}
+    ])
+})
+
 app.listen(3000)
 
 module.exports.app = app

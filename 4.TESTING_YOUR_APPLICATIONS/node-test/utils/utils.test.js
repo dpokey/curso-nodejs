@@ -4,93 +4,96 @@ const expect = require('expect');
 
 const utils = require('./utils')
 
-/* 
-    Usando Mocha
+describe('Utils', () => {
 
-    Para crear un caso de prrueba usa it
+    describe('#add', () => {
+         /* 
+        Usando Mocha
 
-    it es una funcion de mocha 
+        Para crear un caso de prrueba usa it
 
-    Como vamos a estar en ejecucuon nuestro proyecto a travez de mocha, no hay necesidad de importar 
+        it es una funcion de mocha 
 
-    it toma 2 argumentos:
-    1er argumento: Una cadena de descripcion que indica que es exactamente lo que la prueba esta haciendo
-    2do argumento: funcion del codigo de prueba donde se deben entregar los valores de los argumentos de la funcion que se desea probar y la validacion del resultado que se espera
-*/
+        Como vamos a estar en ejecucuon nuestro proyecto a travez de mocha, no hay necesidad de importar 
 
-it('Should add two numbers', () => {
-    const res = utils.add(33, 11)
-    // Evaluamos la respuesta 
-    if (res !== 44) {
-        // Podriamos lanzar un nuevo error, en caso qusieramos determinar si la prueba es un error 
-        throw new Error(`Expected 44, but got ${res}`)
-    }
-})
+        it toma 2 argumentos:
+        1er argumento: Una cadena de descripcion que indica que es exactamente lo que la prueba esta haciendo
+        2do argumento: funcion del codigo de prueba donde se deben entregar los valores de los argumentos de la funcion que se desea probar y la validacion del resultado que se espera
+        */
 
-/* Usando Mocha y Expect */
+        it('Should add two numbers', () => {
+            const res = utils.add(33, 11)
+            // Evaluamos la respuesta 
+            if (res !== 44) {
+                // Podriamos lanzar un nuevo error, en caso qusieramos determinar si la prueba es un error 
+                throw new Error(`Expected 44, but got ${res}`)
+            }
+        })
 
-it('Should add two numbers', () => {
-    const res = utils.add(33, 11)
-    // Evaluamos la respuesta con expect
-    expect(res).toBe(44).toBeA('number')
-})
+        /* Usando Mocha y Expect */
 
-// El parametro done le indica a mocha que esta sera una prueba de una funcion asyncrona
-// Mocha en sus resultados tambien avisa si una prueba toma mucho tiempo, ya que nada deberia tomar mas de un segundo
-it('Should async add two numbers', (done) => {
-    utils.asyncAdd(4, 3, (sum) => {
-        expect(sum).toBe(7).toBeA('number')
-        // Significa que todos estamos listos para la prueba
-        done()
+        it('Should add two numbers', () => {
+            const res = utils.add(33, 11)
+            // Evaluamos la respuesta con expect
+            expect(res).toBe(44).toBeA('number')
+        })
+
+        // El parametro done le indica a mocha que esta sera una prueba de una funcion asyncrona
+        // Mocha en sus resultados tambien avisa si una prueba toma mucho tiempo, ya que nada deberia tomar mas de un segundo
+        it('Should async add two numbers', (done) => {
+            utils.asyncAdd(4, 3, (sum) => {
+                expect(sum).toBe(7).toBeA('number')
+                // Significa que todos estamos listos para la prueba
+                done()
+            })
+        })
+
     })
-})
 
-/* --------------------------------------------- */
+    /* --------------------------------------------- */
 
-/* Usando Mocha */
+    /* Usando Mocha */
 
-it('Should square a number', () => {
-    const res = utils.square(5)
-    if (res !== 25) {
-        throw new Error(`Expected 25, but got ${res}`)
-    }
-})
+    it('Should square a number', () => {
+        const res = utils.square(5)
+        if (res !== 25) {
+            throw new Error(`Expected 25, but got ${res}`)
+        }
+    })
 
-/* Usando Mocha y expect */
+    /* Usando Mocha y expect */
 
-it('Should square a number', () => {
-    const res = utils.square(5)
-    expect(res).toBe(25).toBeA('number')
-})
-
-it('Should async aquare a number', (done) => {
-    utils.asyncSquare(5, (res) => {
+    it('Should square a number', () => {
+        const res = utils.square(5)
         expect(res).toBe(25).toBeA('number')
-        done()
     })
+
+    it('Should async aquare a number', (done) => {
+        utils.asyncSquare(5, (res) => {
+            expect(res).toBe(25).toBeA('number')
+            done()
+        })
+    })
+
+    /* 
+        Usando Jest
+
+        Para crear un caso de prrueba usa test
+
+        test es una funcion de jest 
+
+        Como vamos a estar en ejecucuon nuestro proyecto a travez de jest, no hay necesidad de importar 
+
+        it toma 2 argumentos:
+        1er argumento: Una cadena de descripcion que indica que es exactamente lo que la prueba esta haciendo
+        2do argumento: funcion del codigo de prueba donde se deben entregar los valores de los argumentos de la funcion que se desea probar y la validacion del resultado que se espera en este caso lo realiza toBe()
+
+        Just imprimira un mensaje explicito del error y el resultavo obtenido. a diferencia de mocha no se tiene que usar un if para validar el resultado
+    */
+    // test('Should square a number', () => {
+    //     expect(utils.square(5)).toBe(25)
+    // });
 })
-
-
-
-
-/* 
-    Usando Jest
-
-    Para crear un caso de prrueba usa test
-
-    test es una funcion de jest 
-
-    Como vamos a estar en ejecucuon nuestro proyecto a travez de jest, no hay necesidad de importar 
-
-    it toma 2 argumentos:
-    1er argumento: Una cadena de descripcion que indica que es exactamente lo que la prueba esta haciendo
-    2do argumento: funcion del codigo de prueba donde se deben entregar los valores de los argumentos de la funcion que se desea probar y la validacion del resultado que se espera en este caso lo realiza toBe()
-
-    Just imprimira un mensaje explicito del error y el resultavo obtenido. a diferencia de mocha no se tiene que usar un if para validar el resultado
-*/
-// test('Should square a number', () => {
-//     expect(utils.square(5)).toBe(25)
-// });
 
 /* --------------------------------------------- */
 

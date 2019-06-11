@@ -90,8 +90,30 @@
   
 */
 
-/*  ---- Super Library ----  */
+/*  ---- Supertest Library ----  */
 /* 
   Nos va a ayudar a realizar pruebas de nuestras aplicaciones express
-  
+
+*/
+
+/*  ---- Describe Library ----  */
+/* 
+  Nos va a ayudar a agrupar tareas lo que hace que sea mucho mas facil para escanear la salida de la prueba
+  Describe nos va a permitir hacer grupos de tareas a la cual le podemos dar un nombre y haciendola mas legible
+
+  Describe toma dos parametros:
+  1er argumento: String que describe el gurpo de pruebas
+  2do argumento:  Una funcion que agrupa la definicion de las pruebas en si
+*/
+
+/* Spy */
+/* 
+  Spy nos va a permitir validar si una funciom a sido llamada de la forma correcta y 
+  Para hacerse pasar por una funcion que se ejecuta dentro de otra funcion utilizaremos la libreria Rewire
+*/
+
+/* Rewire Library */
+/* 
+  Nos permite intercambiar una funcion por un spy
+  Podemos probar las funciones que llaman a otras funciones y verificar que la comunicacion ocurre como lo esperdo
 */
