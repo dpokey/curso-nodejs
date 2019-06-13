@@ -116,4 +116,6 @@
 /* 
   Nos permite intercambiar una funcion por un spy
   Podemos probar las funciones que llaman a otras funciones y verificar que la comunicacion ocurre como lo esperdo
+
+  Podemos probar si una funcion que es llamada dentro de otra funcion fue llamada, o si fue llamada correctamente con los argumentos correctos
 */
