@@ -26,11 +26,28 @@
     Regularmente todos los documentos de una coleccion tienen las mismas propiedades
     Cuando se unan diferentes propiedades tiene valor porque se esta haciendo mineria de datos
 
-
-
 */
 
 /* RObo Mongo */
 /* 
     Es un IDE de administracion de BD Mongo
+*/
+
+/* Mongo DB Native Library */
+/* 
+    Es la biblioteca nativa de mongo que nos permitira conectarnos desde node a mongo
+
+    Mongo client es lo que le permite coenctarse a mongo server y ejecutar comenados
+
+    id Object
+    No es incremental, es aleatorio. esto debido a que mongo fue construido para crecer de manera horizontal
+    Es de 12 bytes
+    4 primeros son un sello de tiempo en el qu fue creado
+    3 segundos son un identificador de la maquina
+    2 terceros son un identificador del proceso
+    3 cuartos son un contador similar al incremental de SQL
+
+    MongoDB crea por defecto los identificadores, pero nosotros tambien lo podemos especificar al momento de crear el documento especificando la propiedad __id:
+
+    
 */
