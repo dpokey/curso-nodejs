@@ -158,14 +158,6 @@ app.get('/projects', (req, res) => {
     })
 })
 
-
-
-
-
-
-
-
-
 /*
 Hacemos que la aplicacion escuche en un puerto especifico
 1er parametro: puerto de escucha
