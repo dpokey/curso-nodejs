@@ -45,4 +45,22 @@ describe('POST /todos', () => {
 
             })
     })
+
+    it('Should not create todo with invalid body data', (done) => {
+        request(app)
+            .post('/todos')
+            .send({})
+            .expect(400)
+            .end((error, res) => {
+                if (error) {
+                    return done(error)
+                }
+                Todo.find().then((todos) => {
+                    expect(todos.length).toBe(0)
+                    done()
+                }).catch(e => done(e))
+            })
+    })
 })
+
+
