@@ -114,7 +114,7 @@ Tenemos:
 Un control remoto origen (Local) ---> que apunta a nuestro repositorio github (Remoto)
 Vamos a tener un control remoto (Local heroku) ---> que apunta a nuestro repositorio github heroku (Remoto)
 
-git push heroku
+git push heroku master
 Confirmamos nuestros cambios en repositorio github heroku
 Heroku nos mostrara unos log donde nos hara aber como nuestra aplicacion se esta desplegando
 Al final nos muestra la URL de la aplicacion desplegada (la mpodemos abrir en el navegador)
