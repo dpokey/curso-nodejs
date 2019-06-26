@@ -60,6 +60,7 @@ ssh-add ~/.ssh/id_rsa
 4.-Para decirle al agente donde se encuentran las claves generadas, esto signidica que la maquina local ahora sabe de ese par de claves y que tratara de usarlas cuando se comunica con un servicio de terceros como github
 
 En la web
+clip < ~/.ssh/id_rsa.pub
 5.-Agregar la clave publica en la cuenta de github 
 
 ssh -T git@github.com
@@ -71,6 +72,9 @@ git push -u origin master
 
 ------------------
 Heroku
+
+npm install -g heroku
+Instalamos heroku cli via npm
 
 heroku login
 Para iniciar el proceso de login
@@ -114,12 +118,17 @@ Tenemos:
 Un control remoto origen (Local) ---> que apunta a nuestro repositorio github (Remoto)
 Vamos a tener un control remoto (Local heroku) ---> que apunta a nuestro repositorio github heroku (Remoto)
 
+---------------------------------
+heroku git:remote --app=appname
+Para agregar un git heroku ya existente
+---------------------------------
+
 git push heroku master
 Confirmamos nuestros cambios en repositorio github heroku
 Heroku nos mostrara unos log donde nos hara aber como nuestra aplicacion se esta desplegando
 Al final nos muestra la URL de la aplicacion desplegada (la mpodemos abrir en el navegador)
 
-herolu open
+heroku open
 o podemos ejecutar open para que lo abra en el navegador por defecto
 
 Ai tuvieramos un dominio comprado, tendriamos que redireccionar nuestros dns a esta url que nos da heroku
